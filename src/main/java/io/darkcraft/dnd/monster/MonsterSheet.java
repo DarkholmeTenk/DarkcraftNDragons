@@ -3,6 +3,7 @@ package io.darkcraft.dnd.monster;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -24,6 +25,7 @@ public class MonsterSheet implements StatSheet
     @JsonProperty
     public String source;
 	@JsonProperty
+	@Indexed(unique=true)
 	public String name;
 	@JsonProperty
 	public double cr;

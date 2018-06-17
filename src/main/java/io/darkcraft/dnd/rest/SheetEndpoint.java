@@ -14,7 +14,8 @@ import io.darkcraft.dnd.monster.MonsterSheet;
 import io.darkcraft.dnd.services.sheet.SheetService;
 import io.darkcraft.dnd.stats.SheetType;
 
-@RestController("/sheet")
+@RestController
+@RequestMapping("/sheet")
 public class SheetEndpoint
 {
     @Autowired

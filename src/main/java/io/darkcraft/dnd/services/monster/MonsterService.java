@@ -7,7 +7,6 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import io.darkcraft.dnd.external.dnd5eapi.MonsterAPI;
@@ -15,7 +14,6 @@ import io.darkcraft.dnd.monster.MonsterSheet;
 import io.darkcraft.dnd.store.MonsterSheetRepository;
 
 @Service
-@Cacheable
 public class MonsterService
 {
     @Autowired
