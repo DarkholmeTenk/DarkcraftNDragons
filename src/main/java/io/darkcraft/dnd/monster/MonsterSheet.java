@@ -1,10 +1,13 @@
 package io.darkcraft.dnd.monster;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +19,7 @@ import io.darkcraft.dnd.stats.Feature;
 import io.darkcraft.dnd.stats.SheetType;
 import io.darkcraft.dnd.stats.Size;
 import io.darkcraft.dnd.stats.Speed;
+import io.darkcraft.dnd.stats.Spellcasting;
 
 @JsonInclude(Include.NON_EMPTY)
 public class MonsterSheet implements StatSheet
@@ -67,6 +71,8 @@ public class MonsterSheet implements StatSheet
 	public List<Feature> actions;
 	@JsonProperty
 	public List<Feature> legendaryActions;
+	@JsonProperty
+    public Spellcasting spellcasting;
 
     @Override
     public String getId()
@@ -123,4 +129,12 @@ public class MonsterSheet implements StatSheet
         return SheetType.MONSTER;
     }
 
+    @JsonIgnore
+    public Iterable<Feature> getAllFeatures()
+    {
+        return Stream.of(actions, legendaryActions, specialAbilities)
+                .filter(Objects::nonNull)
+                .flatMap(List::stream)
+                ::iterator;
+    }
 }

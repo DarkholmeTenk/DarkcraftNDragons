@@ -29,6 +29,7 @@ import io.darkcraft.dnd.stats.Alignment.Law;
 import io.darkcraft.dnd.stats.Feature;
 import io.darkcraft.dnd.stats.Size;
 import io.darkcraft.dnd.stats.Speed;
+import io.darkcraft.dnd.stats.Spellcasting;
 
 @Component
 @Cacheable("dnd5eapi")
@@ -162,6 +163,23 @@ public class MonsterAPI implements MonsterProvider
 	    }
 	    return 0;
 	}
+	
+	private Spellcasting getSpellcasting(MonsterSheet sheetWithFeatures)
+	{
+	    for(Feature f : sheetWithFeatures.getAllFeatures())
+	    {
+	        String desc = f.desc;
+            try
+            {
+                return SpellcastingInfoGrabber.getInfo(desc);
+            }
+            catch(Exception e)
+            {
+                LOGGER.trace("Unable to get spellcasting info from " + desc, e);
+            }
+        }
+	    return null;
+	}
 
 	private MonsterSheet parse(String data)
 	{
@@ -198,6 +216,10 @@ public class MonsterAPI implements MonsterProvider
 			sheet.actions = mapper.convertValue(node.get("actions"), featureType);
 			sheet.specialAbilities = mapper.convertValue(node.get("special_abilities"), featureType);
 			sheet.legendaryActions = mapper.convertValue(node.get("legendary_actions"), featureType);
+			
+			//Spells
+			sheet.spellcasting = getSpellcasting(sheet);
+			
 			return sheet;
 		}
 		catch(Exception e)
