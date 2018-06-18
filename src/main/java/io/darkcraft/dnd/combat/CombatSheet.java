@@ -17,5 +17,7 @@ public class CombatSheet
     @JsonProperty
     public String quickName;
     @JsonProperty
+    public String sheetName;
+    @JsonProperty
     public String notes;
 }

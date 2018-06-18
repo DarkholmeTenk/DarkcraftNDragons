@@ -1,5 +1,6 @@
 package io.darkcraft.dnd.rest;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +30,8 @@ public class CombatEndpoint
     @RequestMapping("/save")
     public CombatSet saveCombat(@RequestBody CombatSet set)
     {
+        if(set.actors == null)
+            set.actors = new ArrayList<>();
         if(set.id == null)
             set.created = new Date().getTime();
         set.updated = new Date().getTime();
