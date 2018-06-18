@@ -42,9 +42,10 @@ public class MongoConfig extends AbstractMongoConfiguration
     public MappingMongoConverter mappingMongoConverter() throws Exception {
         DbRefResolver dbRefResolver = new DefaultDbRefResolver(mongoDbFactory());
 
-        MappingMongoConverter converter = new MappingMongoConverter(dbRefResolver, mongoMappingContext()) {
+        return new MappingMongoConverter(dbRefResolver, mongoMappingContext()) {
             @Override
             public <S> S read(Class<S> clazz, Bson dbo) {
+                sortID(dbo);
                 String string = JSON.serialize(dbo);
                 try {
                     return mapper.readValue(string, clazz);
@@ -64,8 +65,26 @@ public class MongoConfig extends AbstractMongoConfiguration
                 addAllToMap(dbo, (Map<String, ?>) JSON.parse(string));
             }
         };
+    }
+    
+    private static String getID(Object o)
+    {
+        return o.toString();
+    }
+    
+    private static void sortID(Bson bson)
+    {
+        if (bson instanceof Document) {
+            Document d = ((Document) bson);
+            d.put("id", getID(d.get("_id")));
+            return;
+        }
 
-        return converter;
+        if (bson instanceof DBObject) {
+            DBObject d = ((DBObject) bson);
+            d.put("id", getID(d.get("_id")));
+            return;
+        }
     }
     
     private static void addAllToMap(Bson bson, Map<String, ?> value) {
