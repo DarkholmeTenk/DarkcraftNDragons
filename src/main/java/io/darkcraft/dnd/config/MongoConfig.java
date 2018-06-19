@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -62,7 +63,10 @@ public class MongoConfig extends AbstractMongoConfiguration
                 } catch (JsonProcessingException e) {
                     throw new RuntimeException(string, e);
                 }
-                addAllToMap(dbo, (Map<String, ?>) JSON.parse(string));
+                Map<String,Object> map = (Map<String, Object>) JSON.parse(string);
+                if(map.containsKey("id") && map.get("id") != null)
+                    map.put("_id", new ObjectId((String)map.get("id")));
+                addAllToMap(dbo, map);
             }
         };
     }
