@@ -12,6 +12,7 @@ import io.darkcraft.dnd.character.CharSheet;
 import io.darkcraft.dnd.character.data.Attribute;
 import io.darkcraft.dnd.external.dnd5eapi.MonsterAPI;
 import io.darkcraft.dnd.monster.MonsterSheet;
+import io.darkcraft.dnd.services.monster.MonsterService;
 import io.darkcraft.dnd.store.CharSheetRepository;
 
 @RestController
@@ -23,6 +24,9 @@ public class DebugEndpoint
 
 	@Autowired
 	private MonsterAPI api;
+
+	@Autowired
+	private MonsterService monsterService;
 
 	@RequestMapping("/save")
 	public void save()
@@ -50,5 +54,13 @@ public class DebugEndpoint
 	public MonsterSheet getMonster(@RequestParam("name") String name)
 	{
 		return api.getMonster(name).orElse(null);
+	}
+
+	@RequestMapping("/buildMonsterTable")
+	public long buildMonsterTable()
+	{
+	    return api.getMonsterNames().stream()
+	            .map(name->monsterService.findByName(name))
+	            .count();
 	}
 }
