@@ -37,14 +37,14 @@ public class JacksonConfig
                     public Enum deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException
                     {
                         Class<? extends Enum> rawClass = (Class<Enum<?>>) type.getRawClass();
-                        return Enum.valueOf(rawClass, jp.getValueAsString().toUpperCase());
+                        return Enum.valueOf(rawClass, jp.getValueAsString().replace(' ', '_').toUpperCase());
                     }
                 };
             }
         });
         return module;
     }
-    
+
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer customize()
     {
@@ -52,7 +52,7 @@ public class JacksonConfig
             builder.modulesToInstall(new GuavaModule(), getEnumModule());
         };
     }
-    
+
     @Bean
     public MappingJackson2HttpMessageConverter getConverter(ObjectMapper mapper)
     {

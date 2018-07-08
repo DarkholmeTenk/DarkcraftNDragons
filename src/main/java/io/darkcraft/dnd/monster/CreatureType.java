@@ -15,5 +15,6 @@ public enum CreatureType
 	MONSTROSITY,
 	OOZE,
 	PLANT,
-	UNDEAD
+	UNDEAD,
+	SWARM_OF_TINY_BEASTS
 }
