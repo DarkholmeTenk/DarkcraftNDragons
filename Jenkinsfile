@@ -2,6 +2,7 @@ pipeline {
 	agent any
 	tools {
 		maven 'Maven'
+		docker 'Docker'
 	}
 	stages {
 		stage('Build') {
@@ -11,7 +12,7 @@ pipeline {
 		}
 		stage('Build Docker Image') {
 			steps {
-				echo "Would build docker image here"
+				sh 'mvn docker:build'
 			}
 		}
 	}
