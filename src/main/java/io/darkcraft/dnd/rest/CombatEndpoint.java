@@ -38,6 +38,13 @@ public class CombatEndpoint
         return repo.save(set);
     }
 
+    @RequestMapping("/delete")
+    public boolean deleteCombat(@RequestParam("id") String id)
+    {
+        repo.deleteById(id);
+        return true;
+    }
+
     @RequestMapping("/get")
     public Optional<CombatSet> getCombat(@RequestParam("name") String id)
     {
