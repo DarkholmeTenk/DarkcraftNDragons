@@ -11,7 +11,8 @@ pipeline {
 		}
 		stage('Build Docker Image') {
 			steps {
-				sh 'mvn --settings settings.xml package docker:build'
+				sh 'ls -l target/'
+				sh 'docker build --build-arg JAVA_FILE=target/**.jar -t dnd/dnd:latest .'
 			}
 		}
 	}
