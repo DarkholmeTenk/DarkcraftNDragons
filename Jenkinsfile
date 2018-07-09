@@ -14,4 +14,5 @@ pipeline {
 				echo "Would build docker image here"
 			}
 		}
+	}
 }
