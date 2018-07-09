@@ -12,7 +12,7 @@ pipeline {
 		stage('Build Docker Image') {
 			steps {
 				sh 'ls -l target/'
-				sh 'docker build --build-arg JAR_FILE=${WORKSPACE}/target/*.jar -t dnd/dnd:latest .'
+				sh 'docker build --build-arg JAR_FILE=target/*.jar -t dnd/dnd:latest .'
 			}
 		}
 	}
