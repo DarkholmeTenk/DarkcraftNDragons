@@ -10,11 +10,8 @@ pipeline {
 			}
 		}
 		stage('Build Docker Image') {
-			withMaven(
-				maven: 'Maven',
-				mavenSettingsFilePath: 'settings.xml'
-			) {
-				sh 'mvn package docker:build'
+			steps {
+				sh 'mvn --settings settings.xml package docker:build'
 			}
 		}
 	}
